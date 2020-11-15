@@ -10,8 +10,14 @@
 ## the assignment graded as complete. 
 
 ## Please write below your (and your teammates') name and matriculation number. 
-## Name:
-## Matriculation number:
+## Name: Divesh Kumar
+## Matriculation number: 7010048
+
+## Name: Aleena Siji
+## Matriculation number: 7010829 
+
+## Name: Deepa Rani Mahato
+## Matriculation number: 7012336
 
 ## Change the name of the file by adding your matriculation numbers
 ## (sheet01_firstID_secondID_thirdID.R)
@@ -29,57 +35,79 @@
 ### Exercise 1: Getting started
 ###############
 ## a) Look at your current working directory.
-
+## Using getwd() found the working directory to be "Users/mac"
+getwd()
 
 ## b) Get help with this function.
-
+help(getwd)
 
 ## c) Change your working directory to another directory.
-
-
+## Using setwd(dir) set directory to be dir
 
 ###############
 ### Exercise 2: Participants' age & boxplots
 ###############
-## In this exercise, we will deal with data from a package.
+## In this exercise, we will deal with data from a pack'https://cran.rstudio.com/bin/macosx/contrib/4.0/languageR_1.5.0.tgz'age.
 
 ## a) Install the package "languageR" and load it.
-
+## Installed from 
+library("languageR")
 
 ## b) Specifically, we will deal with the dataset 'dutchSpeakersDistMeta'. 
 ##    This dataset should be available to you once you've loaded languageR.
 ##    The dataset contains information on the speakers included in the Spoken 
 ##    Dutch Corpus. Inspect 'dutchSpeakersDistMeta'. Look at the head, tail, 
 ##    and summary. What do head and tail show you?
-
+data("dutchSpeakersDistMeta")
+head(dutchSpeakersDistMeta)
+tail(dutchSpeakersDistMeta)
+summary(dutchSpeakersDistMeta)
 
 ## c) Each line in this file provides information on a single speaker. How many 
 ##    speakers are included in this dataset? In other words, use a function to 
 ##    retrieve the number of rows for this dataset.
-
+(nrow(dutchSpeakersDistMeta))
+# There are 165 rows.
 
 ## d) Let's say we're interested in the age of the speakers included in the 
 ##    corpus, to see whether males and females are distributed equally. 
 ##    Create a boxplot for Sex and AgeYear.
-
+boxplot(dutchSpeakersDistMeta$AgeYear~dutchSpeakersDistMeta$Sex, xlab = "Sex", ylab = "Age Year")
 
 ## e) Does it seem as if either of the two groups has more variability in age?
-
+# Yes, The females seem to have more variability in age but outliers are less wheras ages of males have low 
+# standard deviation but have a few outliers.
 
 ## f) Do you see any outliers in either of the two groups?
-
+# Yes, we see outliers in the group of males.
 
 ## g) Now calculate the mean and standard deviation of the AgeYear per group. 
 ##    Do this by creating a subset for each group.
 ##    Do the groups seem to differ much in age?
+males <- subset(dutchSpeakersDistMeta, dutchSpeakersDistMeta$Sex == "male")
+females <- subset(dutchSpeakersDistMeta, dutchSpeakersDistMeta$Sex == "female")
+mean(males$AgeYear)
+mean(females$AgeYear)
+sd(males$AgeYear)
+sd(females$AgeYear)
+# Mean value for AgeYear for both the groups is as follows:
+# Males = 1967.301 , Females = 1966.889
+# There is not much difference in mean of both the groups.
+# Standard deviation value for both the groups is as follows:
+# Males = 14.66 , Females = 15.87 
+# Thus Females have a higher standard deviation value.
+# Same can be verified from the boxplots above.
 
 
 ## h) What do the whiskers of a boxplot mean?
+# The upper whisker of the box plot is the largest dataset number smaller than 1.5IQR above the third quartile. and the lower whisker
+# is the smallest number larger than 1.5IQR(Inter Quartile Range).
 
 ## i) What is the inter-quartile range in the boxplot?
+# Inter quartile range is the range between 25th and 75th percentile. i.e. Q3- Q1
 
 ## j) Is the plot positively or negatively skewed?
-
+# Both the plots are negatively skewed for Females vs AgeYear and Males vs AgeYear.
 
 
 ###############
