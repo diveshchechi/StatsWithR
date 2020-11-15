@@ -20,7 +20,7 @@
 ## Matriculation number: 7012336
 
 ## Change the name of the file by adding your matriculation numbers
-## (sheet01_firstID_secondID_thirdID.R)
+## (sheet01_7010048_7010829_7012336.R)
 
 
 
@@ -123,47 +123,56 @@ sd(females$AgeYear)
 
 ## a) What measurement scale is this data? Is it discrete or continuous? Explain
 ##    in one sentence why? (remember, comment out written answers)
-
+# It is DISCRETE data and the scale is ratio scale.
 
 ## b) In the next questions (c-e), you will create a dataframe of this data, 
 ##    which will also include participant IDs.
 ##    Why is a dataframe better suited to store this data than a matrix?
+# There are advantages in using data frame than using a matrix, e.g. it can store data of various types be it numeric, string etc.
 
 
 ## c) First create a vector with participant IDs. Your vector should be named 
 ##    'pps', and your participants should be labeled from 1 to 25
-
+(pps <- c(1:25))
 
 ## d) Next, create a vector containing all the observations. Name this vector 'obs'.
-
+obs <- c(18, 15, 22, 19, 18, 17, 18, 20, 17, 12, 16, 16, 17, 21, 25, 18, 20, 21, 20, 20, 15, 18, 17, 19, 20)
 
 ## e) Create a dataframe for this data. Assign this to 'stories'. 
-
+(stories <- data.frame(pps,obs))
 
 ## f) Take a look at the summary of your dataframe, and at the classes of your 
 ##    columns. What class is the variable 'pps'?
-
+summary(stories)
+class(stories$pps)
 
 ## g) Change the class of 'pps' to factor. Why is factor a better class for this
 ##    variable?
-
+stories$pps <- factor(stories$pps)
+class(stories$pps)
 
 ## h) Plot a histogram (using hist()) for these data. Set the number of breaks 
 ##    to 8.
-
+hist(stories$obs, breaks = 8, xlab = "Observations", main = "Histogram of observations")
 
 
 ## i) Create a kernel density plot using density().
-
+plot(density(stories$obs), main = "Kernel density plot")
 
 ## j) What is the difference between a histogram and a kernel density plot?
+
 
 ## This is a difficult one, remember you just need to provide a serious attempt at solving each 
 ## exercise in order to pass. 
 ## k) Overlay the histogram with the kernel density plot 
 ##    (hint: the area under the curve should be equal for overlaying the graphs 
 ##    correctly.)
-
+hist(stories$obs,
+     prob=TRUE, 
+     xlab="Observations",
+     main="Density plot and histogram")
+box(bty="l")
+lines(density(stories$obs), col = "blue")
 
 
 ###############
