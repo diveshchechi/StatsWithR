@@ -145,11 +145,13 @@ obs <- c(18, 15, 22, 19, 18, 17, 18, 20, 17, 12, 16, 16, 17, 21, 25, 18, 20, 21,
 ##    columns. What class is the variable 'pps'?
 summary(stories)
 class(stories$pps)
+## the class is of integer type
 
 ## g) Change the class of 'pps' to factor. Why is factor a better class for this
 ##    variable?
 stories$pps <- factor(stories$pps)
 class(stories$pps)
+## factor class suits the variable better as it represents the IDs of the participants, which is nominal. (also, numeric calculations make no sense wrt this variable.)
 
 ## h) Plot a histogram (using hist()) for these data. Set the number of breaks 
 ##    to 8.
@@ -160,6 +162,8 @@ hist(stories$obs, breaks = 8, xlab = "Observations", main = "Histogram of observ
 plot(density(stories$obs), main = "Kernel density plot")
 
 ## j) What is the difference between a histogram and a kernel density plot?
+## Histogram plots the data distribtions in bins (aka class intervals) - it is discrete and it's depiction varies depending on the interval/bin size chosen.
+## Kernel density plot smoothens out the data distribution and gives a continous plot - it is independent of bin sizes and gives a more detailed depiction.
 
 
 ## This is a difficult one, remember you just need to provide a serious attempt at solving each 
