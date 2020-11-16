@@ -199,7 +199,12 @@ help(dnorm)
 y <- dnorm(x,mean=0,sd=1,log=FALSE)
 
 ## c) Now use plot() to plot the normal distribution for z values of "x". 
+#plotting x and y
 plot(x,y)
+# plotting x and z
+mu <- mean(y)
+z <- y-mu
+plot(x,z)
 
 ## d) The plot now has a relatively short y-range, and it contains circles 
 ##    instead of a line. 
