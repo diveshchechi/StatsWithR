@@ -10,6 +10,16 @@
 ## You need to provide a serious attempt to each exercise in order to have
 ## the assignment graded as complete. 
 
+## Please write below your (and your teammates') name and matriculation number. 
+## Name: Divesh Kumar
+## Matriculation number: 7010048
+
+## Name: Aleena Siji
+## Matriculation number: 7010829 
+
+## Name: Deepa Rani Mahato
+## Matriculation number: 7012336
+
 # 1. Download the data file "digsym.csv" from the moodle and save it in your working directory. 
 
 
