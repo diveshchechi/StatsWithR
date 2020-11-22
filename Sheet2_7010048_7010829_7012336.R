@@ -121,7 +121,9 @@
 
 ## a) Load the package languageR. We're going to work with the dataset 'dative'. 
 ## Look at the help and summary for this dataset.
-
+library(languageR)
+summary(dative)
+help(dative)
 
 ## The term dative alternation is used to refer to the alternation between 
 ## a prepositional indirect-object construction
@@ -131,11 +133,14 @@
 
 ## b) Create a contingency table of 'LenghtOfTheme' using table(). 
 ##    What does this table show you?
+contingencyTable <- table(dative$LengthOfTheme)
+contingencyTable
 
 
 ## c) Look at the distribution of 'LenghtOfTheme' by plotting a histogram and a boxplot. 
 ##    Do there appear to be outliers? Is the data skewed?
-
+hist(dative$LengthOfTheme, main = "Hist of LengthOfTheme")
+boxplot(dative$LengthOfTheme)
 
 ## d) Now we're going to derive sampling distributions of means for different 
 ##    sample sizes. 
@@ -145,14 +150,16 @@
 ## e) We are going to need a random sample of the variable 'LengthOfTheme'. 
 ##    First create a random sample of 5 numbers using sample(). 
 ##    Assign the outcome to 'randomsampleoflengths'
-
+randomsampleoflengths <- sample(dative$LengthOfTheme, 5)
 
 ## f) Do this again, but assign the outcome to 'randomsampleoflengths2'. 
-
+randomsampleoflengths2 <- sample(dative$LengthOfTheme, 5)
 
 ## g) Now calculate the mean of both vectors, and combine these means 
 ##    into another vector called 'means5'.
-
+mean1 <- mean(randomsampleoflengths)
+mean2 <- mean(randomsampleoflengths2)
+means5 <- c(mean1,mean2)
 
 ## h) In order to draw a distribution of such a sample, we want means of 
 ##    1000 samples. However, we don't want to repeat question e and f 
@@ -160,18 +167,33 @@
 ##    by using a for-loop. See dataCamp or the course books for 
 ##    how to write loops in R.
 
+# Cleaning means5 of old means calculated in g
+means5 <- c()
+for(i in 1:1000){
+  randomSampleOfFive <- sample(dative$LengthOfTheme,5)
+  meani <- mean(randomSampleOfFive)
+  means5 <- append(means5,meani)
+}
 
 ## i) Repeat the for-loop in question h, but use a sample size of 50. 
 ##    Assign this to 'means50' instead of 'means5'.
-
+means50 <- c()
+for(i in 1:1000){
+  randomSampleOfFifty <- sample(dative$LengthOfTheme,50)
+  meani <- mean(randomSampleOfFifty)
+  means50 <- append(means50,meani)
+}
 
 ## j) Explain in your own words what 'means5' and 'means50' now contain. 
 ##    How do they differ?
-
+summary(means5)
+summary(means50)
 
 ## k) Look at the histograms for means5 and means50. Set the number of breaks to 15.
 ##    Does means5 have a positive or negative skew?
-
+hist(means5, breaks = 15)
+hist(means50, breaks = 15)
+# The means5 have a positive skew as can be seen from the histogram.
 
 ## l) What causes this skew? In other words, why does means5 have bigger 
 ##    maximum numbers than means50?
