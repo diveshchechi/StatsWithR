@@ -21,93 +21,111 @@
 ## Matriculation number: 7012336
 
 # 1. Download the data file "digsym.csv" from the moodle and save it in your working directory. 
-
+setwd("D:\\Deepa\\Stats with R")
+getwd()
 
 # 2. Read in the data into a variable called "dat".
-
+dat <- read.csv("digsym.csv")
 
 # 3. Load the libraries languageR, stringr, dplyr and tidyr.
-
+install.packages("languageR")
+install.packages("stringr")
+install.packages("dplyr")
+install.packages("tidyr")
 
 # 4. How many rows, how many columns does that data have?
-
+nrow(dat) 
+#3700
+ncol(dat)
+#11
 
 # 5. Take a look at the structure of the data frame using "glimpse".
-
+glimpse(dat)
 
 # 6. View the first 20 rows, view the last 20 rows.
-
+head(dat, n= 20)
+tail(dat, n= 20)
 
 # 7. Is there any missing data in any of the columns?
-
+sum(is.na(dat))
+#370
 
 # 8. Get rid of the row number column.
-
+dat <- select(dat, -X)
+colnames(dat)
 
 # 9. Put the Sub_Age column second.
-
+dat <- dat[,c(1,10,2,3,4,5,6,7,8,9)]
+colnames(dat)
 
 # 10. Replace the values of the "ExperimentName" column with something shorter, more legible.
-
+dat <- replace(dat, 1, "Kopie")
 
 # 11. Keep only experimental trials (encoded as "Trial:2" in List), get rid of practice trials 
 # (encoded as "Trial:1"). When you do this, assign the subset of the data to a variable "data2", 
 # then assign data2 to dat and finally remove data2.
-
+data2 <- dat
+data2<-data2[!(data2$List == "Trial:1"),]
+dat <- data2
+rm(data2)
 
 # 12. Separate Sub_Age column to two columns, "Subject" and "Age", using the function "separate".
-
+dat <- separate(dat, col = "Sub_Age", into = c("Sub","Age"), sep = " _ ")
+colnames(dat)
 
 # 13. Make subject a factor.
-
+dat$Sub <- as.factor(dat$Sub)
+str(dat)
 
 # 14. Extract experimental condition ("right" vs. "wrong") from the "File" column:
 # i.e. we want to get rid of digit underscore before and the digit after the "right" and "wrong".
-
-
+dat$File <- str_extract(dat$File,"[a-z]+")
 
 # 15. Using str_pad to make values in the File column 8 chars long, by putting 0 at the end  (i.e., 
 # same number of characters, such that "1_right" should be replaced by "1_right0" etc).
-
+str_pad(dat$File, 8, "right", "0")
 
 # 16. Remove the column "List".
-
+dat <- select(dat, -List)
+colnames(dat)
 
 # 17. Change the data type of "Age" to integer.
-
+dat$Age <- as.integer(dat$Age)
+str(dat)
 
 # 18. Missing values, outliers:
 # Do we have any NAs in the data, and if so, how many and where are they?
-
+sum(is.na(dat))
+# 0
 
 # 19. Create an "accuracy" column using ifelse-statement.
 # If actual response (StimulDS1.RESP) is the same as the correct response (StimulDS1.CRESP), put 
 # in value 1, otherwise put 0.
-
+dat$accuracy <- if_else(dat$StimulDS1.RESP == dat$StimulDS1.CRESP, 1, 0 )
 
 # 20. How many wrong answers do we have in total?
-
+sum(dat$accuracy == 0)
+# 185
 
 # 21. What's the percentage of wrong responses?
-
-
+(sum(dat$accuracy == 0) / nrow(dat)) * 100
+# 5.555556
 
 # 22. Create a subset "correctResponses" that only contains those data points where subjects 
 # responded correctly. 
-
-
+correctResponses <- dat[dat$accuracy == 1, ]
 
 # 23. Create a boxplot of StimulDS1.RT - any outliers?
-
+boxplot(correctResponses$StimulDS1.RT)
 
 # 24. Create a histogram of StimulDS1.RT with bins set to 50.
-
+hist(correctResponses$StimulDS1.RT, breaks=50)
 
 # 25. Describe the two plots - any tails? any suspiciously large values?
 
 
 # 26. View summary of correct_RT.
-
+summary(correctResponses)
 
 # 27. There is a single very far outlier. Remove it and save the result in a new dataframe named 
 # "cleaned".
