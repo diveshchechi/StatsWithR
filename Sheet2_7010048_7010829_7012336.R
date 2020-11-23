@@ -122,13 +122,15 @@ boxplot(correctResponses$StimulDS1.RT)
 hist(correctResponses$StimulDS1.RT, breaks=50)
 
 # 25. Describe the two plots - any tails? any suspiciously large values?
-
+# Plot seems to be positively skewed and a very large value 13852 is clearly an outlier
 
 # 26. View summary of correct_RT.
-summary(correctResponses)
+summary(correctResponses$StimulDS1.RT)
 
 # 27. There is a single very far outlier. Remove it and save the result in a new dataframe named 
 # "cleaned".
+cleaned <- filter(correctResponses, correctResponses$StimulDS1.RT != 13852)
+
 
 
 ###############
