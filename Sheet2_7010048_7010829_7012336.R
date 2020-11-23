@@ -209,23 +209,32 @@ hist(means50, breaks = 15)
 ## Navarro discusses this in more depth in chapter 10.
 
 ## a) What does a confidence interval mean from the perspective of experiment replication?
+## Ans: We can understand confidence interval as the region (in terms of how many standard deviations away from the mean in the distribution)
+##      within which the population mean can be expected to be in, with a said level of confidence. 
 
 
 ## b) Let's calculate the confidence interval for our means from the previous 
 ##    exercise.
 ##    First, install and load the packages 'lsr' and 'sciplot'
-
+library(lsr)
+library(sciplot)
 
 ## c) Look at the description of the function ciMean to see which arguments it takes.
-
+?ciMean
 
 ## d) Use ciMean to calculate the confidence interval of the dataset dative from
 ##    the previous exercise.
 ##    Also calculate the mean for the variable LengthOfTheme.
+ciMean(dative, conf=0.95)
+ciMean(dative$LengthOfTheme, conf=0.95)
+mean(dative$LengthOfTheme)
 
 
 ## e) Does the mean of the sample fall within the obtained interval? 
 ##    What does this mean?
+##    Ans: Yes, it falls within the confidence interval for 95%.
+##         <what does it mean?>
+## did they mean to calculate mean for a sample instead of the whole dataset and check if it falls within the confidence interval?
 
 
 ## f) As the description of dative mentions, the dataset describes the 
@@ -236,8 +245,12 @@ hist(means50, breaks = 15)
 ##    animate (AnimacyOfTheme) and how long the theme is (LengthOfTheme).
 ##    Plot this using the function bargraph.CI(). Look at the help for this function. 
 ##    Use the arguments 'x.factor' and 'response'.
+bargraph.CI(dative$AnimacyOfTheme, dative$LengthOfTheme, xlab="Animacy of Theme", ylab="Length of Theme", ylim=c(0,5))
 
 
 ## g) Expand the plot from question f with the ci.fun argument 
 ##    (this argument takes 'ciMean'). 
 ##    Why does the ci differ in this new plot compared to the previous plot?
+bargraph.CI(dative$AnimacyOfTheme, dative$LengthOfTheme, xlab="Animacy of Theme", ylab="Length of Theme", ylim=c(0,5), ci.fun=ciMean(dative))
+## In this plot, the ciMean() function is used to compute the upper and lower limits of the confidence interval. 
+## Hence, the new limits replace the default limits used in previous question. 
