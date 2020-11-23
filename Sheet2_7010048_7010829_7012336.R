@@ -231,9 +231,9 @@ hist(means50, breaks = 15)
 ## Navarro discusses this in more depth in chapter 10.
 
 ## a) What does a confidence interval mean from the perspective of experiment replication?
-## Ans: We can understand confidence interval as the region (in terms of how many standard deviations away from the mean in the distribution)
-##      within which the population mean can be expected to be in, with a said level of confidence. 
-
+## Ans: Condidence intervals are useful in quantifying the degree of uncertainty associated with experiments. 
+##      From a frequentist perspective, as relevant to experiment replications, it can be understood that 
+##      when confidence intervals are computed for the experiment samples, 95% (assuming 95% confidence interval) of them will contain the population mean. 
 
 ## b) Let's calculate the confidence interval for our means from the previous 
 ##    exercise.
@@ -254,9 +254,8 @@ mean(dative$LengthOfTheme)
 
 ## e) Does the mean of the sample fall within the obtained interval? 
 ##    What does this mean?
-##    Ans: Yes, it falls within the confidence interval for 95%.
-##         <what does it mean?>
-## did they mean to calculate mean for a sample instead of the whole dataset and check if it falls within the confidence interval?
+##    Ans: Yes, it falls within the confidence interval.
+##         It means that there is 95% chance that the population mean will fall within this interval. 
 
 
 ## f) As the description of dative mentions, the dataset describes the 
@@ -275,6 +274,6 @@ bargraph.CI(dative$AnimacyOfTheme, dative$LengthOfTheme, xlab="Animacy of Theme"
 ##    (this argument takes 'ciMean'). 
 ##    Why does the ci differ in this new plot compared to the previous plot?
 bargraph.CI(dative$AnimacyOfTheme, response = dative$LengthOfTheme, xlab="Animacy of Theme", ylab="Length of Theme", ylim=c(0,5), ci.fun=function(response) ciMean(response))
-## In this plot, the ciMean() function is used to compute the upper and lower limits of the confidence interval. 
-## Hence, the new limits replace the default limits (based on standard error) used in previous question.
+## Ans: In this plot, the ciMean() function is used to compute the upper and lower limits of the confidence interval. 
+##      Hence, the new limits replace the default limits (based on standard error) used in previous question.
 
