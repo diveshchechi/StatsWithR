@@ -245,12 +245,13 @@ mean(dative$LengthOfTheme)
 ##    animate (AnimacyOfTheme) and how long the theme is (LengthOfTheme).
 ##    Plot this using the function bargraph.CI(). Look at the help for this function. 
 ##    Use the arguments 'x.factor' and 'response'.
+?bargraph.CI
 bargraph.CI(dative$AnimacyOfTheme, dative$LengthOfTheme, xlab="Animacy of Theme", ylab="Length of Theme", ylim=c(0,5))
 
 
 ## g) Expand the plot from question f with the ci.fun argument 
 ##    (this argument takes 'ciMean'). 
 ##    Why does the ci differ in this new plot compared to the previous plot?
-bargraph.CI(dative$AnimacyOfTheme, dative$LengthOfTheme, xlab="Animacy of Theme", ylab="Length of Theme", ylim=c(0,5), ci.fun=ciMean(dative))
+bargraph.CI(dative$AnimacyOfTheme, response = dative$LengthOfTheme, xlab="Animacy of Theme", ylab="Length of Theme", ylim=c(0,5), ci.fun=function(response) ciMean(response))
 ## In this plot, the ciMean() function is used to compute the upper and lower limits of the confidence interval. 
-## Hence, the new limits replace the default limits used in previous question. 
+## Hence, the new limits replace the default limits (based on standard error) used in previous question.
