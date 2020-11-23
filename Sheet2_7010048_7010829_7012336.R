@@ -21,17 +21,18 @@
 ## Matriculation number: 7012336
 
 # 1. Download the data file "digsym.csv" from the moodle and save it in your working directory. 
-setwd("D:\\Deepa\\Stats with R")
+setwd("/Users/diveshkumar/Desktop/Stats")
 getwd()
 
 # 2. Read in the data into a variable called "dat".
 dat <- read.csv("digsym.csv")
 
 # 3. Load the libraries languageR, stringr, dplyr and tidyr.
-install.packages("languageR")
-install.packages("stringr")
-install.packages("dplyr")
-install.packages("tidyr")
+# after installing using install.packages()
+library("languageR")
+library("stringr")
+library("dplyr")
+library("tidyr")
 
 # 4. How many rows, how many columns does that data have?
 nrow(dat) 
@@ -132,7 +133,6 @@ summary(correctResponses$StimulDS1.RT)
 cleaned <- filter(correctResponses, correctResponses$StimulDS1.RT != 13852)
 
 
-
 ###############
 ### Exercise 2: Deriving sampling distributions
 ###############
@@ -165,7 +165,8 @@ boxplot(dative$LengthOfTheme)
 ## d) Now we're going to derive sampling distributions of means for different 
 ##    sample sizes. 
 ##    What's the difference between a distribution and a sampling distribution?
-
+# Distribution of parameter of sample like mean from several samples called sampling distribution.
+# Whereas Sample distribution is just the distribution of the data from the sample. 
 
 ## e) We are going to need a random sample of the variable 'LengthOfTheme'. 
 ##    First create a random sample of 5 numbers using sample(). 
@@ -217,7 +218,8 @@ hist(means50, breaks = 15)
 
 ## l) What causes this skew? In other words, why does means5 have bigger 
 ##    maximum numbers than means50?
-
+# Means5 has bigger numbers than means50 as small sample size leads to higher variability in data wheras bigger sample size
+# is more representative of the entire population.
 
 ###############
 ### Exercise 3: Confidence interval
@@ -275,3 +277,4 @@ bargraph.CI(dative$AnimacyOfTheme, dative$LengthOfTheme, xlab="Animacy of Theme"
 bargraph.CI(dative$AnimacyOfTheme, response = dative$LengthOfTheme, xlab="Animacy of Theme", ylab="Length of Theme", ylim=c(0,5), ci.fun=function(response) ciMean(response))
 ## In this plot, the ciMean() function is used to compute the upper and lower limits of the confidence interval. 
 ## Hence, the new limits replace the default limits (based on standard error) used in previous question.
+
