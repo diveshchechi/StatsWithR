@@ -148,7 +148,7 @@ pbinom(4,12,0.25)
 ##    as well as their classes. Which variables are factors?
 library(languageR)
 str(dutchSpeakersDistMeta)
-#Variables that are vector :
+#Variables that are factor :
 #  Speaker         : Factor
 #  Sex             : Factor
 #  AgeGroup        : Factor
@@ -161,25 +161,29 @@ str(dutchSpeakersDistMeta)
 ##    a contingency table of AgeGroup by Sex.
 
 AgeGroupBySex <- table(dutchSpeakersDistMeta$AgeGroup, dutchSpeakersDistMeta$Sex)
+AgeGroupBySex
 
 ##    Visualize your data with a single bar plot (use ggplot) that represents the counts with 
 ##    respect to each age group and each sex.
 
-ggplot(dutchSpeakersDistMeta, aes(AgeGroup, Sex)) + geom_bar()
+ggplot(dutchSpeakersDistMeta, aes(AgeGroup, fill=Sex)) + geom_bar(position="dodge")
 
 ## c) Inspect the table you created in b). Does it look like there could be a significant 
 ##    difference between the sexes?
+## Yes, it does look like there is significant difference between the sexes wrt age distribution.
 
 ## d) We are going to calculate whether there's a difference between males and females 
 ##    regarding their age group using the function chisq.test. 
 ##    Look at the help of this function. 
 ##    Then use the  function to calculate whether there's a difference in our table from b). 
 ##    Is there a significant difference in age group?
-
-chisq.test(age)
+?chisq.test
+chisq.test(AgeGroupBySex)
+## p-value of 0.5124 (ie, above 0.5) means that it is not a significant difference
 
 ## e) What are the degrees of freedom for our data? How are they derived?
-
+## There are 5 categories. The degree of freedom in this case will be 4.
+## The degree of freedom can be understood as "if age group 1? else, age group 2? else, age group 3? else, age group 4?" (if none of the 4 groups, then it is by default the 5th group.)
 
 
 
@@ -222,4 +226,3 @@ dbinom(83,200,1/2)
 ## Ans: We would use McNemar's test when the observations aren't independent of each other.
 ## For example, if we're trying to assess the effect of a treatment, then the response for both before and after the treatment are collected from the same set of participants. 
 ## In such a situation, they can't be treated as different categories and hence, chi-square test will give an inaccurate assessment. 
-
