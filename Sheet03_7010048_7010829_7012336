@@ -146,14 +146,26 @@ pbinom(4,12,0.25)
 ## a) Consider the dataset dutchSpeakersDistMeta from sheet1. 
 ##    Load the package (languageR) and look at the summary of the variables, 
 ##    as well as their classes. Which variables are factors?
+library(languageR)
+str(dutchSpeakersDistMeta)
+Variables that are vector :
+  Speaker         : Factor
+  Sex             : Factor
+  AgeGroup        : Factor
+  ConversationType: Factor
+  EduLevel        : Factor
 
 ## b) We want to find out whether there is a difference between males and females 
 ##    with respect to the age groups they are in.
 ##	  First use the function 'table()' to get the counts and create 
 ##    a contingency table of AgeGroup by Sex.
 
+AgeGroupBySex <- table(dutchSpeakersDistMeta$AgeGroup, dutchSpeakersDistMeta$Sex)
+
 ##    Visualize your data with a single bar plot (use ggplot) that represents the counts with 
 ##    respect to each age group and each sex.
+
+ggplot(dutchSpeakersDistMeta, aes(AgeGroup, Sex)) + geom_bar()
 
 ## c) Inspect the table you created in b). Does it look like there could be a significant 
 ##    difference between the sexes?
@@ -164,7 +176,11 @@ pbinom(4,12,0.25)
 ##    Then use the  function to calculate whether there's a difference in our table from b). 
 ##    Is there a significant difference in age group?
 
+chisq.test(age)
+
 ## e) What are the degrees of freedom for our data? How are they derived?
+
+
 
 
 ##########
