@@ -195,14 +195,22 @@ chisq.test(age)
 
 ## a) What is the null hypothesis, i.e. how often would we expect the doctor to 
 ##    be correct by chance (in raw number and in percentage)?
+# Null hypothesis is Doctors can not predict the fever. 
+# We expect the performance at chance level to be p = 1/2 or 50%
+
 
 ## b) Using a chisquare test, what do you conclude about whether this idea
 ##    of checking fever/temperature works? 
+# (o-e)^2/e = (83-100)^2/100 = 2.89
+pchisq(2.89,1,lower.tail = FALSE)
 
 ## c) Now calculate significance using the binomial test as we used it in exercise 2.
+dbinom(83,200,1/2)
 
 ## d) The results from these two tests are slightly different. Which test do you think 
 ##    is better for our data, and why?
+# Binomial test is better as it is exact for 2 outcomes which is our case, whereas the chi square test is 
+# an approximation.
 
 
 ##########
