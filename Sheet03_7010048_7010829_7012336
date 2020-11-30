@@ -195,4 +195,7 @@ pbinom(4,12,0.25)
 ## Describe a situation where you would choose McNemar's test over the ChiSquare test. 
 ## What would be the problem of using the normal ChiSquare test in a case where 
 ## McNemar's test would be more appropriate?
+## Ans: We would use McNemar's test when the observations aren't independent of each other.
+## For example, if we're trying to assess the effect of a treatment, then the response for both before and after the treatment are collected from the same set of participants. 
+## In such a situation, they can't be treated as different categories and hence, chi-square test will give an inaccurate assessment. 
 
