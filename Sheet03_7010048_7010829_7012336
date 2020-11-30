@@ -148,12 +148,12 @@ pbinom(4,12,0.25)
 ##    as well as their classes. Which variables are factors?
 library(languageR)
 str(dutchSpeakersDistMeta)
-Variables that are vector :
-  Speaker         : Factor
-  Sex             : Factor
-  AgeGroup        : Factor
-  ConversationType: Factor
-  EduLevel        : Factor
+#Variables that are vector :
+#  Speaker         : Factor
+#  Sex             : Factor
+#  AgeGroup        : Factor
+#  ConversationType: Factor
+#  EduLevel        : Factor
 
 ## b) We want to find out whether there is a difference between males and females 
 ##    with respect to the age groups they are in.
