@@ -262,4 +262,48 @@ cohen.d(scores~tutor, data = final_df)
 #	repeat the whole experiment you performed above with different sample size, mean and standard deviation  
 #	repeat it 3 times changing all the values (sample size, mean, sd) and formulate the findings.  
 #	what do you observe when we keep the means and sd same?
+# Iteration 1
+first_tutor_grades <- rnorm(20, mean=0, sd=10) 
+first_tutor <- rep(c("tutor1"),20)
+data_frame <- data.frame(first_tutor, first_tutor_grades)
+names(data_frame) <- c("tutor", "scores")
+second_tutor_grades <- rnorm(30, mean=10, sd=10) 
+second_tutor <- rep(c("tutor2"),30)
+data_frame2 <- data.frame(second_tutor, second_tutor_grades)
+names(data_frame2) <- c("tutor", "scores")
+final_df <- rbind(data_frame, data_frame2)
+t.test(formula = scores ~ tutor, data = final_df)
+cohen.d(scores~tutor, data = final_df)
+# In this case p value is 0.007 > 0.05,  = -4.479, t = -2.8224, df = 38.497, p-value = 0.007503
+# Thus Suggesting that a genuine difference in 
+# learning outcome has not occured.
 
+# Iteration 2
+first_tutor_grades <- rnorm(100, mean=0, sd=10) 
+first_tutor <- rep(c("tutor1"),100)
+data_frame <- data.frame(first_tutor, first_tutor_grades)
+names(data_frame) <- c("tutor", "scores")
+second_tutor_grades <- rnorm(50, mean=0, sd=10) 
+second_tutor <- rep(c("tutor2"),50)
+data_frame2 <- data.frame(second_tutor, second_tutor_grades)
+names(data_frame2) <- c("tutor", "scores")
+final_df <- rbind(data_frame, data_frame2)
+t.test(formula = scores ~ tutor, data = final_df)
+cohen.d(scores~tutor, data = final_df)
+# In this case when we kept same sd and mean we get Effect size Cohen's D = -0.204 suggesting negligible effect size. 
+# t = -1.138, df = 89.584, p-value = 0.2581
+
+# Iteration 3
+first_tutor_grades <- rnorm(20, mean=0, sd=15) 
+first_tutor <- rep(c("tutor1"),20)
+data_frame <- data.frame(first_tutor, first_tutor_grades)
+names(data_frame) <- c("tutor", "scores")
+second_tutor_grades <- rnorm(20, mean=0, sd=15) 
+second_tutor <- rep(c("tutor2"),20)
+data_frame2 <- data.frame(second_tutor, second_tutor_grades)
+names(data_frame2) <- c("tutor", "scores")
+final_df <- rbind(data_frame, data_frame2)
+t.test(formula = scores ~ tutor, data = final_df)
+cohen.d(scores~tutor, data = final_df)
+# In this case when we kept same means and sd we get effect size COhen D = 0.12 suggesting again negligible effect size.
+# t = 0.40987, df = 37.87, p-value = 0.6842
