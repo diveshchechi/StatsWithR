@@ -127,7 +127,7 @@ colnames(data)
 # Store the result in a new variable called "cdata". 
 ## Check ?cast or https://www.statmethods.net/management/reshape.html for more infos on 
 ## cast(). 
-#cast(data, subject + condition + accuracy, function, value = var4, na.rm = TRUE)
+cdata <- cast(data, Subject ~ condition ,  mean, value = "accuracy")
 
 # 8. Create histograms of the accuracy data depending on the right and wrong 
 # condition and display them side by side.
@@ -165,8 +165,13 @@ cohen.d(accuracy ~ condition, data = data)
 # Let's do a transformation of our data set (cdata) to see what it would look like in a wide 
 # format.
 # Use spread() from the tidyr package.
-
-## not sure what to do
+# spread(data,...) # wrong
+## not sure what to do as cdata already in foll format
+# Subject     right     wrong
+#1        4 0.9333333 0.9555556
+#2        5 1.0000000 0.9555556
+#3        6 1.0000000 0.9555556
+# what am i supposed to spread this on. 
 
 
 # 17. Compute the t-test again on the wide format data - note that for wide-format 
