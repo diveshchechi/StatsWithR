@@ -12,15 +12,8 @@
 ## You are required to work together in groups of three students but only one student needs to submit the solution!
 
 ## Please write below your (and your teammates') name, matriculation number. 
-## Name: 
-## Aleena Siji
-## Divesh Kumar
-## Deepa
-
+## Name:
 ## Matriculation number:
-## 7010829
-## 7010048
-## 7012336
 
 ## Change the name of the file by adding your matriculation numbers
 ## (exercise0N_firstID_secondID_thirdID.R)
@@ -143,7 +136,6 @@ ggplot(data, aes(x=accuracy, fill=condition))+geom_histogram(binwidth=0.05,posit
 # 9. Display the same data in density plots. 
 ggplot(data, aes(x=accuracy, color=condition))+geom_density()
 
-
 # 10. Based on the histograms and the density plots - are these data normally 
 # distributed?
 ## Ans: No, they're not normally distributed
@@ -151,21 +143,21 @@ ggplot(data, aes(x=accuracy, color=condition))+geom_density()
 # 11. Create boxplots of the accuracy data.
 ggplot(data, aes(x=condition, y=accuracy))+geom_boxplot(position = "dodge")
 
-
 # 12. Compute the t-test to compare the mean accuracy between wrong and right picture
 # combinations.
 # Do you need a paired t-test or independent sample t-test? why?
-## Ans: paired t-test because the observations are taken 
-
+## Ans: Independent samples t-test because the observations seems to have been taken from different sets of participants 
+##      and not repeated from same participants. But we should use Welch t-test because variances are different.
+t.test(formula = accuracy ~ condition, data = data)
 
 # 13. What does the output tell you? What conclusions do you draw?
-
+## Ans: The t-test result shows that there is considerable difference in accuracy between right and wrong conditions
 
 # 14. Compute the effect size using CohensD.
-
+cohen.d(accuracy ~ condition, data = data)
 
 # 15. Which effect size do we get? How do you interpret this result?
-
+## Ans: We got only a negligible effect size.
 
 # 16. In addition to the long-format data we've just been working on, you may also 
 # encounter data sets in a wide format (this is the format we have been using in 
@@ -174,16 +166,24 @@ ggplot(data, aes(x=condition, y=accuracy))+geom_boxplot(position = "dodge")
 # format.
 # Use spread() from the tidyr package.
 
+## not sure what to do
+
 
 # 17. Compute the t-test again on the wide format data - note that for wide-format 
 # data you need to use a different annotation for the t-test.
+
+## have to skip because of confusion in Q16
 
 
 # 18. Compare the t-test results from the wide-format and the long-format data. 
 # What do you notice?
 
+## have to skip because of confusion in Q16
+
 
 # 19. Compute CohensD on the wide format data. What do you notice?
+
+## have to skip because of confusion in Q16
 
 
 
@@ -266,4 +266,49 @@ cohen.d(scores~tutor, data = final_df)
 #	repeat the whole experiment you performed above with different sample size, mean and standard deviation  
 #	repeat it 3 times changing all the values (sample size, mean, sd) and formulate the findings.  
 #	what do you observe when we keep the means and sd same?
+# Iteration 1
+first_tutor_grades <- rnorm(20, mean=0, sd=10) 
+first_tutor <- rep(c("tutor1"),20)
+data_frame <- data.frame(first_tutor, first_tutor_grades)
+names(data_frame) <- c("tutor", "scores")
+second_tutor_grades <- rnorm(30, mean=10, sd=10) 
+second_tutor <- rep(c("tutor2"),30)
+data_frame2 <- data.frame(second_tutor, second_tutor_grades)
+names(data_frame2) <- c("tutor", "scores")
+final_df <- rbind(data_frame, data_frame2)
+t.test(formula = scores ~ tutor, data = final_df)
+cohen.d(scores~tutor, data = final_df)
+# In this case p value is 0.007 > 0.05,  = -4.479, t = -2.8224, df = 38.497, p-value = 0.007503
+# Thus Suggesting that a genuine difference in 
+# learning outcome has not occured.
+
+# Iteration 2
+first_tutor_grades <- rnorm(100, mean=0, sd=10) 
+first_tutor <- rep(c("tutor1"),100)
+data_frame <- data.frame(first_tutor, first_tutor_grades)
+names(data_frame) <- c("tutor", "scores")
+second_tutor_grades <- rnorm(50, mean=0, sd=10) 
+second_tutor <- rep(c("tutor2"),50)
+data_frame2 <- data.frame(second_tutor, second_tutor_grades)
+names(data_frame2) <- c("tutor", "scores")
+final_df <- rbind(data_frame, data_frame2)
+t.test(formula = scores ~ tutor, data = final_df)
+cohen.d(scores~tutor, data = final_df)
+# In this case when we kept same sd and mean we get Effect size Cohen's D = -0.204 suggesting negligible effect size. 
+# t = -1.138, df = 89.584, p-value = 0.2581
+
+# Iteration 3
+first_tutor_grades <- rnorm(20, mean=0, sd=15) 
+first_tutor <- rep(c("tutor1"),20)
+data_frame <- data.frame(first_tutor, first_tutor_grades)
+names(data_frame) <- c("tutor", "scores")
+second_tutor_grades <- rnorm(20, mean=0, sd=15) 
+second_tutor <- rep(c("tutor2"),20)
+data_frame2 <- data.frame(second_tutor, second_tutor_grades)
+names(data_frame2) <- c("tutor", "scores")
+final_df <- rbind(data_frame, data_frame2)
+t.test(formula = scores ~ tutor, data = final_df)
+cohen.d(scores~tutor, data = final_df)
+# In this case when we kept same means and sd we get effect size COhen D = 0.12 suggesting again negligible effect size.
+# t = 0.40987, df = 37.87, p-value = 0.6842
 
