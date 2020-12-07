@@ -12,8 +12,15 @@
 ## You are required to work together in groups of three students but only one student needs to submit the solution!
 
 ## Please write below your (and your teammates') name, matriculation number. 
-## Name:
+## Name: 
+## Aleena Siji
+## Divesh Kumar
+## Deepa
+
 ## Matriculation number:
+## 7010829
+## 7010048
+## 7012336
 
 ## Change the name of the file by adding your matriculation numbers
 ## (exercise0N_firstID_secondID_thirdID.R)
@@ -202,24 +209,30 @@ ggplot(summarySE_data, aes(x=condition, y=accuracy, fill=condition)) +
 #comparing the performance of the students in the final exam by tutor group. 
 
 #1. Generate 10 samples from a normal distribution with mean 0 and sd 10 and save it a variable names "first_tutor_grades"
-
+first_tutor_grades <- rnorm(10, mean=0, sd=10) 
 
 #2. Create a vector named "first_tutor" having same 10 values -> "tutor1"
-
+first_tutor <- rep(c("tutor1"),10)
 
 #3. Create a data frame named "data_frame" having 2 columns "first_tutor", "first_tutor_grades" created above. 
-
+data_frame <- data.frame(first_tutor, first_tutor_grades)
 
 #4. Change the column names of the data frame to "tutor" and "score"
-
+names(data_frame) <- c("tutor", "scores")
 
 
 #5. repeat the steps 1-4 with the following changes:
 #i) generate another 10 samples with mean 10 and sd 25. save it in a variable: second_tutor_grades
-#ii)Create a vector named "second_tutor" having 10 same values -> "tutor2"
-#iii) Create a data frame named "data_frame2" having 2 columns "second_tutor", "second_tutor_grades" created above.
-#iv) Change the column names of the data frame to "tutor" and "score"
+second_tutor_grades <- rnorm(10, mean=10, sd=25) 
 
+#ii)Create a vector named "second_tutor" having 10 same values -> "tutor2"
+second_tutor <- rep(c("tutor2"),10)
+
+#iii) Create a data frame named "data_frame2" having 2 columns "second_tutor", "second_tutor_grades" created above.
+data_frame2 <- data.frame(second_tutor, second_tutor_grades)
+
+#iv) Change the column names of the data frame to "tutor" and "score"
+names(data_frame2) <- c("tutor", "scores")
 
 
 #6. combine both data frames into a new one and name it "final_df"
@@ -230,6 +243,7 @@ ggplot(summarySE_data, aes(x=condition, y=accuracy, fill=condition)) +
 #3  tutor1     3.56
 #4  tutor2     1.56
 #5  tutor2     545
+final_df <- rbind(data_frame, data_frame2)
 
 
 #7. run the independent samples TTest (independentSamplesTTest) and formulate the findings as discussed in the lecture. 
