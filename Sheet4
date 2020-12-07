@@ -253,7 +253,8 @@ final_df <- rbind(data_frame, data_frame2)
 #var(second_tutor_grades)
 t.test(formula = scores ~ tutor, data = final_df)
 # We observe that mean grade in tutor1 was -1.8 (sd = 10) and in tutor2 -8.99 (sd = 25), The t test showed that this 
-# difference was not significant (t(15.39), p>0.05, CI95 = [-9.57, 23.94]), 
+# difference was not significant (t(15.39), p>0.05, CI95 = [-9.57, 23.94]), Suggesting that a genuine difference in 
+# learning outcome has not occured.
 cohen.d(scores~tutor, data = final_df)
 # Cohen's d value is 0.4 thus implies a small effect size.
 
