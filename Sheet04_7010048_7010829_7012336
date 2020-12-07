@@ -312,3 +312,4 @@ cohen.d(scores~tutor, data = final_df)
 # In this case when we kept same means and sd we get effect size COhen D = 0.12 suggesting again negligible effect size.
 # t = 0.40987, df = 37.87, p-value = 0.6842
 
+
