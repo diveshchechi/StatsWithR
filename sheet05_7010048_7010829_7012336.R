@@ -32,6 +32,8 @@ library(reshape)
 library(languageR)
 library(ggplot2)
 library(ggpubr)
+library(tidyr)
+library(gridExtra)
 
 #######################
 ### Exercise 1: Correlation
@@ -134,7 +136,7 @@ ggplot(data, aes(x = Frequency, y = Length)) +
 # Let's go back to our digsym data set.
 # Set your wd and load the data frame digsym_clean.csv and store it in a variable. 
 getwd()
-setwd("/Users/diveshkumar/Desktop/Stats")
+setwd("/Users/aleen/Desktop/Saarland Studies/Stats with R")
 csvData <- read.csv(file="digsym_clean.csv")
 
 # b) Suppose you want to predict reaction times in the digit symbol task by 
@@ -150,30 +152,44 @@ csvData <- read.csv(file="digsym_clean.csv")
 # In case you're wondering why we still have to do this - like the t-test, 
 # linear regression assumes independence of observations.
 # In other words, one row should correspond to one subject or item only.
-cast <- cast(csvData, Subject + Age ~ . ,  mean, value = "correct_RT_2.5sd", na.RM = true)
+data_dropna <- csvData %>% drop_na(correct_RT_2.5sd)
+head(data_dropna)
+?cast
+cast <- cast(data_dropna, Subject + Age ~ .,  mean, value = "correct_RT_2.5sd", na.RM = TRUE)
 colnames(cast) <- c("Subject", "Age", "RT_mean")
 head(cast)
-
+tail(cast)
 
 # c) Now fit the regression model.
-# DIVESH TODO : csvRegress <- lm(correct_RT_2.5sd ~ Age, data = cast)
+csvRegress <- lm(RT_mean ~ Age, data = cast)
 
 # d) Let's go over the output - what's in there?
 # How do you interpret the output?
 summary(csvRegress)
+# There is a positive relationship between age and RT value. 
 
 # e) Plot the data points and the regression line.
+ggplot(cast, aes(x = Age, y = RT_mean)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
 
+with(cast, plot(Age,RT_mean))
+abline(csvRegress)
 
 
 # f) Plot a histogram and qq-plot of the residuals. 
 # Does their distribution look like a normal distribution?
-
-
+residuals <- resid(csvRegress)
+residuals
+hist(residuals)
+plot(density(residuals))
+qqnorm(residuals)
+# the distribution looks skewed and deviating form normal in some ranges
 
 # g) Plot Cook's distance for the regression model from c) which estimates the 
 # residuals (i.e. distance between the actual values and the  predicted value on 
 # the regression line) for individual data points in the model.
+
 
 
 # h) Judging from the plot in g) it actually looks like we have 1 influential 
@@ -186,11 +202,19 @@ summary(csvRegress)
 # What is the problem with observation 37?
 # Run the plotting command again and have R display the subjects that belong to 
 # each point.
-
+gg1 <- ggplot(cast, aes(x = Age, y = RT_mean, color=Subject)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+gg1
+# observation 37 is an outlier
 
 # i) Make a subset of "cast" by excluding the influential subject and name it cast2.
+cast2 <- cast[-c(37),] 
+tail(cast2)
 
 # j) Fit the model from c) again, using cast2, and take a good look at the output.
+csvRegress2 <- lm(RT_mean ~ Age, data = cast2)
+summary(csvRegress2)
 
 # k) What's different about the output?
 # How does that change your interpretation of whether age is predictive of RTs?
@@ -198,9 +222,19 @@ summary(csvRegress)
 
 # l) Plot the regression line again - notice the difference in slope in 
 # comparison to our earlier model fit?
+gg2 <- ggplot(cast2, aes(x = Age, y = RT_mean, color=Subject)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+gg2
+
+with(cast2, plot(Age,RT_mean))
+abline(csvRegress2)
+
+# the slope has become less steep
 
 
 # m) Display the two plots side by side to better see what's going on.
+grid.arrange(gg1,gg2,nrow=2)
 
 
 # n) Compute the proportion of variance in RT that can be accounted for by Age.
@@ -209,4 +243,5 @@ summary(csvRegress)
 # doing this.
 
 # o) How do you interpret R Squared?
+# R squared is the proportion of variance iin output that can be explained by the regression model. It could be calculated as (TSS-RSS)/TSS.
 
