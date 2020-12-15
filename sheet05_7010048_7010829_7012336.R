@@ -113,18 +113,18 @@ summary(regressionModel)
 # b) How do you interpret the output? Is the relationship between the two variables 
 # positive or negative?
 # Plot the data points and the regression line.
-plot(data$Frequency,data$Length)
+plot(data$Length,data$Frequency)
 abline(regressionModel)
+# the relationship is negative - longer words are less frequent
 
 
 # c) Run the plotting command again and have R display the actual words that belong 
 # to each point. 
 # (Don't worry about readability of overlapping words.)
-ggplot(data, aes(x = Frequency, y = Length)) +
+ggplot(data, aes(x = Length, y = Frequency)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   geom_text(aes(label = Word))
-
 
 
 #######################
@@ -189,8 +189,10 @@ qqnorm(residuals)
 # g) Plot Cook's distance for the regression model from c) which estimates the 
 # residuals (i.e. distance between the actual values and the  predicted value on 
 # the regression line) for individual data points in the model.
-
-
+cooksd <- cooks.distance(csvRegress)
+cooksd
+hist(cooksd)
+plot(density(cooksd))
 
 # h) Judging from the plot in g) it actually looks like we have 1 influential 
 # observation in there that has potential to distort (and pull up) our regression 
@@ -206,7 +208,7 @@ gg1 <- ggplot(cast, aes(x = Age, y = RT_mean, color=Subject)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE)
 gg1
-# observation 37 is an outlier
+# observation 37 is an outlier, high leverage and large residual. It is highly influential on the model. 
 
 # i) Make a subset of "cast" by excluding the influential subject and name it cast2.
 cast2 <- cast[-c(37),] 
@@ -218,6 +220,8 @@ summary(csvRegress2)
 
 # k) What's different about the output?
 # How does that change your interpretation of whether age is predictive of RTs?
+# Ans: The slope has become less steep. This is the general relationship between age and RT_mean 
+#      for ages below 40. However, the same relationship cannot be generalized to ages above 40 anymore.
 
 
 # l) Plot the regression line again - notice the difference in slope in 
@@ -241,7 +245,8 @@ grid.arrange(gg1,gg2,nrow=2)
 # In other words: Compute R Squared.
 # Take a look at the Navarro book (Chapter on regression) if you have trouble 
 # doing this.
+rsquared <- 1 - var(residuals)/var(cast2$RT_mean)
+rsquared
 
 # o) How do you interpret R Squared?
-# R squared is the proportion of variance iin output that can be explained by the regression model. It could be calculated as (TSS-RSS)/TSS.
-
+# R squared is the proportion of variance in output that can be explained by the regression model. It could be calculated as 1 - var(e)/var(y) or 1 - RSS/TSS.
