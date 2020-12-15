@@ -189,6 +189,9 @@ qqnorm(residuals)
 # g) Plot Cook's distance for the regression model from c) which estimates the 
 # residuals (i.e. distance between the actual values and the  predicted value on 
 # the regression line) for individual data points in the model.
+par(mfrow=c(2,2)) 
+plot(csvRegress)
+par(mfrow=c(1,1))
 cooksd <- cooks.distance(csvRegress)
 cooksd
 hist(cooksd)
