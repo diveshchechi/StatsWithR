@@ -53,25 +53,40 @@ library(reshape)
 
 # a) For the further reference please use ?amis. 
 # It may take some time to understand the dataset. 
-
+?amis
 
 # b) Load the dataset, store it into a variable called "data", and briefly inspect it. 
 # Feel free to make some plots and calculate some statistics in order to understand 
 # the data.
-
+data <- amis
+head(data)
 
 # c) All our columns have numeric type. Convert the categorial columns to factors.
-
+str(data)
+data$period = as.factor(data$period)
+data$warning = as.factor(data$warning)
+data$pair = as.factor(data$pair)
+# As except speed all other variables are categorical.
 
 # d) Plot boxplots for the distribution of `speed` for each of the `period` values 
 # (before, immediately after and after some time). Build 2 plots (each containing 3 
 # boxplots) side by side depending on the `warning` variable.
 # (For all plots here and below please use ggplot)
+dWarning1 = subset(data, warning == 1)
+dWarning2 = subset(data, warning == 2)
+# Box Plot for data with Warning 1
+ggplot(dWarning1, aes(x = period,y = speed))+
+  geom_boxplot() + ggtitle("Warning value 1")
+# Box Plot for data with Warning 2
+ggplot(dWarning2, aes(x = period,y = speed))+
+  geom_boxplot()  + ggtitle("Warning value 2")
 
 
 # e) What can you conclude looking at the plots? What can you say about people's 
 # behaviour in different periods: before, immediately after and after some time?
-
+# Regarding readings with Warning 1 we can see that the mean speed dropped immediately
+# after the sign was erected however in "after some time" situation mean speed increased
+# indicating that people started ignoring the warning signs.
 
 
 # f) What are your ideas about why the data with warning==2 (sites where no sign was 
@@ -166,4 +181,3 @@ library(reshape)
 
 
 # f) What do you conclude about the behaviour of drivers based on the 2-way ANOVA?
-
