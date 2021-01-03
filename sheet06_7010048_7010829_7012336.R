@@ -103,14 +103,18 @@ ggplot(dWarning2, aes(x = period,y = speed))+
 # Therefore first subset your data to filter out warning==2 and then apply cast() 
 # to average "speed" over each "pair" and "period". 
 # Assign this new data frame to the variable casted_data.
-
-
+Warning1 = subset(data, warning == 1)
+casted <-  cast(Warning1, period + pair ~ .,  mean, value = "speed", na.RM = TRUE)
+colnames(casted) <- c("period", "pair", "avg_speed")
 
 # b) Build boxplots of the average speed depending on "period".
-
+ggplot(casted, aes(x = period,y = avg_speed))+
+  geom_boxplot()  + ggtitle("Boxplot avg_speed vs pair")
 
 # c) Looking at the boxplots, is there a difference between the periods?
-
+# Yes, in the "immediately after installing sign period" the avg_speed dropped from
+# the avg_speed when no warning sign was installed, however in "after some time" phase
+# the avg_speed actually increased even higher than the pre warning sign phase.
 
 
 # Now, let's check the ANOVA assumptions and whether they are violated or not 
