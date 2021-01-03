@@ -13,11 +13,17 @@
 ## the assignment graded as complete. 
 
 ## Please write below your (and your teammates) name, matriculation number. 
-## Name: 
-## Matriculation number: 
+## Name: Divesh Kumar
+## Matriculation number: 7010048
+
+## Name: Aleena Siji
+## Matriculation number: 7010829 
+
+## Name: Deepa Rani Mahato
+## Matriculation number: 7012336
 
 ## Change the name of the file by adding your matriculation numbers
-## (exercise0N_firstID_secondID_thirdID.R)
+## (sheet06_7010048_7010829_7012336.R)
 
 ###########################################################################################
 
