@@ -36,6 +36,7 @@
 library(boot)
 library(ggplot2)
 library(reshape)
+library(lsr)
 
 # This time we will be working with the "amis" data frame (package 'boot') that has 
 # 8437 rows and 4 columns.
@@ -110,6 +111,7 @@ colnames(casted) <- c("period", "pair", "avg_speed")
 Warning1
 casted
 
+
 # b) Build boxplots of the average speed depending on "period".
 ggplot(casted, aes(x = period,y = avg_speed))+
   geom_boxplot()  + ggtitle("Boxplot avg_speed vs pair")
@@ -126,13 +128,13 @@ ggplot(casted, aes(x = period,y = avg_speed))+
 # d) Independence assumption
 # (Figure out the best way to check this assumption and give a detailed justified 
 # answer to whether it is violated or not.)
-
-
+# 
 
 # e) Normality of residuals
 # (Figure out the best way to check this assumption and give a detailed justified 
 # answer to whether it is violated or not.)
-
+# We can use the QQ plot to determine if the residuals are normally distributed or not.
+# 
 
 
 # f) Homogeneity of variance of residuals
@@ -148,7 +150,9 @@ summary(aov(avg_speed ~ period , data=casted))
 # h) what were the degrees of freedom from the result in part g)
 # 2 degrees of freedom for period and 39 for Residuals
 
-# i) Calcuate the effect size and interpret the results. 
+# i) Calculate the effect size and interpret the results. 
+# effect size = SSb/SStot
+etaSquared(aov(avg_speed ~ period , data=casted))
 
 # j) Please do pairwise t-tests of the same variables as in g) using pairwise.t.test().
 
