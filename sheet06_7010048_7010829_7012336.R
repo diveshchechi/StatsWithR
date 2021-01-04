@@ -91,6 +91,7 @@ ggplot(dWarning2, aes(x = period,y = speed))+
 
 # f) What are your ideas about why the data with warning==2 (sites where no sign was 
 # erected) was collected?
+# to differentiate between the effect of having a sign versus random changes in speed
 
 
 #######################
@@ -106,6 +107,8 @@ ggplot(dWarning2, aes(x = period,y = speed))+
 Warning1 = subset(data, warning == 1)
 casted <-  cast(Warning1, period + pair ~ .,  mean, value = "speed", na.RM = TRUE)
 colnames(casted) <- c("period", "pair", "avg_speed")
+Warning1
+casted
 
 # b) Build boxplots of the average speed depending on "period".
 ggplot(casted, aes(x = period,y = avg_speed))+
@@ -168,20 +171,26 @@ ggplot(casted, aes(x = period,y = avg_speed))+
 # So let's turn back to our initial dataset amis (not its subset with warning==1).
 # First, we need to average the speed over each `pair`, `warning` and `period
 # Cast your data again and assign the resuts to casted_data2.
-
-
+casted_data2 <- cast(amis, period + pair + warning ~ .,  mean, value = "speed", na.RM = TRUE)
+colnames(casted_data2) <- c("period", "pair", "warning", "avg_speed")
+casted_data2 
 
 # b) Calculate the mean for each of the 6 possible pairs of `period` and `warning`.
-
+casted_data3 <- cast(casted_data2, period + warning ~ .,  mean, value = "avg_speed", na.RM = TRUE)
+colnames(casted_data3) <- c("period","warning","mean_speed")
+casted_data3
 
 # c) Do you think there is a significant difference between some of the groups?
-
+# Yes, there seems to be significant difference betweeen some of the groups, for example, between 35.7 and 39.8 
 
 # d) State the main difference between the applicabilty of 1-way and 2-way ANOVA.
+# 1-way anova is used when we test for difference in means between different levels of one factor variable. 
+# 2-way anova is used when we test for difference in means between different levels of more than one factor variables. 
+# here, there are two variables - period and warning - that could have an effect on the data and could also be interacting with one another.
 
 # e) Now apply the 2-way ANOVA: please use the function aov() on the speed depending 
 # on the period and warning.
 # Report the p-value and interpret the result in detail. Properly formulate the findings!
-
+summary(aov(mean_speed ~ period + warning, data=casted_data3))
 
 # f) What do you conclude about the behaviour of drivers based on the 2-way ANOVA?
