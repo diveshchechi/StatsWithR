@@ -193,4 +193,13 @@ casted_data3
 # Report the p-value and interpret the result in detail. Properly formulate the findings!
 summary(aov(mean_speed ~ period + warning, data=casted_data3))
 
+ggplot(casted_data3, aes(x = period, y = mean_speed, color=warning))+
+  geom_point()+ggtitle("Boxplot avg_speed vs pair")
+interaction.plot(casted_data3$period, casted_data3$warning, casted_data3$mean_speed)
+
+# p-value of 0.0185 indicates a slightly significant effect by the warning sign.
+# on analyzing more with the interaction plot, we find that there is an effect of warning sign in period ""immediately after installing sign"
+# because the avg_speed drops significantly. However, in other periods, the effect of having a sign vs no having a sign is not significant.
+
 # f) What do you conclude about the behaviour of drivers based on the 2-way ANOVA?
+# We could conclude that drivers tend to reduce speed when they encounter for the first time but once they get used to the sign, they ignore it. 
