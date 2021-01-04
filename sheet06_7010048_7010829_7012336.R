@@ -36,6 +36,7 @@
 library(boot)
 library(ggplot2)
 library(reshape)
+install.packages("lsr")
 library(lsr)
 
 # This time we will be working with the "amis" data frame (package 'boot') that has 
@@ -92,7 +93,7 @@ ggplot(dWarning2, aes(x = period,y = speed))+
 
 # f) What are your ideas about why the data with warning==2 (sites where no sign was 
 # erected) was collected?
-# to differentiate between the effect of having a sign versus random changes in speed
+# To differentiate between the effect of having a sign versus random changes in speed
 
 
 #######################
@@ -111,7 +112,6 @@ colnames(casted) <- c("period", "pair", "avg_speed")
 Warning1
 casted
 
-
 # b) Build boxplots of the average speed depending on "period".
 ggplot(casted, aes(x = period,y = avg_speed))+
   geom_boxplot()  + ggtitle("Boxplot avg_speed vs pair")
@@ -128,45 +128,71 @@ ggplot(casted, aes(x = period,y = avg_speed))+
 # d) Independence assumption
 # (Figure out the best way to check this assumption and give a detailed justified 
 # answer to whether it is violated or not.)
-# 
+# NOVA assumes that the observations are random and that the samples taken from the populations are independent of each other. One event should not depend on another;
+# that is, the value of one observation should not be related to any other observation.
+# If same drivers performed the test then we could say that independence is violated ,
+# however since we do not control that thus independence assumption is not violated, it is achieved by correctly randomising sample selection.
+
 
 # e) Normality of residuals
 # (Figure out the best way to check this assumption and give a detailed justified 
 # answer to whether it is violated or not.)
-# We can use the QQ plot to determine if the residuals are normally distributed or not.
-# 
-
+an <- aov(avg_speed ~ period , data=casted)
+qqnorm(an$residuals)
+# The quantile-quantile plot or q-q plot plots the values as if they came from a normal distribution
+# (the theoretically expected values) against the real values.  
+# Thus we demonstrate normality of residuals is satisfied but it does not seem too far from being disatisfied.
 
 # f) Homogeneity of variance of residuals
 # (Figure out the best way to check this assumption and give a detailed justified 
 # answer to whether it is violated or not.)
-
-
+# We can test the assumption of homogeniety of variance using bartlet test
+bartlett.test(avg_speed ~ period, data=casted)
+# Since the p value received is 0.71 which is way higher than 0.05 we fail to reject the null hypothesis and thus accept homogeneity of variances. 
+ggplot(casted, aes(x = period,y = avg_speed))+
+  geom_boxplot()  + ggtitle("Boxplot avg_speed vs pair")
+# also from the box plot we can check that variability is roughly equal for each group.
 
 # g) Now we are ready to perform 1-way ANOVA: please use the function aov() on the 
 # speed depending on the period, report p-value and interpret the result in details.
 summary(aov(avg_speed ~ period , data=casted))
+# P value reported is 0.382 which is higher than 0.05. And does not indicate a significant effect on speed by warning sign.
+
 
 # h) what were the degrees of freedom from the result in part g)
-# 2 degrees of freedom for period and 39 for Residuals
+# Degrees of freedom are 2 for period, 39 for Residuals.
 
-# i) Calculate the effect size and interpret the results. 
-# effect size = SSb/SStot
+# i) Calcuate the effect size and interpret the results. 
 etaSquared(aov(avg_speed ~ period , data=casted))
+# Eta squared is 0.0481462 and is same as partial eta squared.
+# Eta squared gives us the percentage of variance in DV accounted for by Independent Variable.
 
 # j) Please do pairwise t-tests of the same variables as in g) using pairwise.t.test().
-
+attach(casted)
+pairwise.t.test(avg_speed, period)
+detach()
 
 # k) Report the pairwise p-values and interpret the result in detail.
-
+# Pairwise comparisons indicate values of 0.81 and (0.81 and 0.51) respectively. 
 
 # l) Try to use no adjustment for pairwise testing and then the Bonferroni correction.
 # Does the result change? 
+attach(casted)
+pairwise.t.test(avg_speed, period)
+detach()
+
+attach(casted)
+pairwise.t.test(avg_speed, period, p.adjust.method = "bonferroni")
+detach()
+# Yes the results change to 1.0 and (1.0  and 0.51) respectively.
 
 # m) If the results change why do they? What does Bonferroni correction do?
-
+# Results change using Bonferroni correction as it adjusts the p values. 
+# It adjusts p values because of the increased risk of a type I error when making multiple statistical tests.
 
 # n) If the assumption of Normality does not hold, which test would you be using in this scenario.
+# If assumption of Normality is violated we cannot use 1 way Anova and are likely to use a non parametric test , maybe a KW test.
+
 
 #######################
 ### Exercise 3: 2-way ANOVA
