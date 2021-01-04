@@ -156,6 +156,8 @@ ggplot(casted, aes(x = period,y = avg_speed))+
 # g) Now we are ready to perform 1-way ANOVA: please use the function aov() on the 
 # speed depending on the period, report p-value and interpret the result in details.
 summary(aov(avg_speed ~ period , data=casted))
+# P value reported is 0.382 which is higher than 0.05. And does not indicate a significant effect on speed by warning sign.
+
 
 # h) what were the degrees of freedom from the result in part g)
 # Degrees of freedom are 2 for period, 39 for Residuals.
