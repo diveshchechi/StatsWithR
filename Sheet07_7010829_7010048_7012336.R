@@ -14,11 +14,16 @@
 ## the assignment graded as complete.
 
 ## Please write below your (and your teammates) name, matriculation number. 
-## Name:
-## Matriculation number:
+## Name: Divesh Kumar
+## Matriculation number: 7010048
 
+## Name: Aleena Siji
+## Matriculation number: 7010829 
+
+## Name: Deepa Rani Mahato
+## Matriculation number: 7012336
 ## Change the name of the file by adding your matriculation numbers
-## (exercise0N_firstID_secondID_thirdID.R)
+## (sheet07_7010048_7010829_7012336.R)
 
 ###############################################################################
 ###############################################################################
@@ -32,6 +37,7 @@
 ########
 
 library(ggplot2)
+library(broom)
 
 # a) Read in the data kidiq.txt (available in the Moodle) and take a look
 #    at the data summary. It contains information about the mum's iq and 
@@ -67,7 +73,9 @@ ggplot(data=kidiq_df,aes(x=mom_iq,y=kid_score))+
 
 lm1 <- lm(kid_score~mom_iq, data=kidiq_df)
 summary(lm1)
-
+# Results obtained are intercept value of 25.79, coefficient for mom_iq = 0.60997 
+# WWe observe that for 1 pt. increase in Mom's IQ the Kid's score increases by 0.609
+# Adjusted R squared is 0.1991. We will compare it with next question.
 
 # d) Next, fit a regression model with two predictors: mom_hs and mom_iq. 
 #    Interpret the model 
@@ -75,6 +83,9 @@ summary(lm1)
 
 lm2 <- lm(kid_score ~ mom_iq + mom_hs, data=kidiq_df)
 summary(lm2)
+# Results obtained are Intercept value of 25.73, coefficient for mom_iq = 0.56, coeff for mom_hs 5.95
+# Adjusted R squared value is 0.21. This value is higher than the previous method,
+# Thus we can say that this model with mom_iq and mom_hs is more suitable than just using mom_iq as input variable.
 
 # e) Now plot a model where both predictors are shown. Do this by plotting 
 #    data points for mothers with high school degree==1 in one color and those 
@@ -97,9 +108,10 @@ ggplot(data=kidiq_df,aes(x=mom_iq,y=kid_score, color=mom_hs))+
 
 # f) Next, we will proceed to a model including an interaction between mom_hs
 #    and mom_iq. Fit the model and interpret your results.
-lm3 <- lm(kid_score~mom_iq * mom_hs, data=kidiq)
+lm3 <- lm(kid_score~mom_iq + mom_hs + mom_iq * mom_hs, data=kidiq_df)
 summary(lm3)
-
+# results are intercept -11.48, coeff of mom_iq = 0.9689, coeff mom_hs1 = 51.2 and interaction term is -0.48
+# The coefficient of interaction term (-0.48) denotes Change in Mom_iq if Mom has hs degree Mom_hs.
 
 # g) Next, let's plot the results of this model.
 ggplot(augment(lm3), aes(x=mom_iq,y=kid_score, color=mom_hs))+
@@ -114,7 +126,7 @@ ggplot(augment(lm3), aes(x=mom_iq,y=kid_score, color=mom_hs))+
 #    Please specify the predict function to also give you the 0.95 confidence 
 #    interval.
 ?predict.lm()
-kidiq2 <- subset(kidiq, mom_hs == 1 & mom_iq >= 100)
+kidiq2 <- subset(kidiq_df, mom_hs == 1 & mom_iq >= 100)
 predict(lm(kid_score~mom_iq, kidiq2, interval = "confidence", level = 0.95))
 
 
@@ -122,10 +134,20 @@ predict(lm(kid_score~mom_iq, kidiq2, interval = "confidence", level = 0.95))
 #    Let's go back to exercise b) and plot again the data points with the 
 #    regression line. By default, there should also be displayed the borders of 
 #    the confidence interval. What is the meaning of this confidence interval?
-
+ggplot(data=kidiq_df,aes(x=mom_iq,y=kid_score))+
+  geom_point() +
+  geom_smooth(method='lm',formula= y~x) +
+  ggtitle("Plot of Kid's Score against Mom's IQ") +
+  xlab("Mom's IQ") +
+  ylab("Kid's Score")
+# Confidence interval denotes that with  a 95% confidence level,
+# you can be 95% confident that the confidence interval contains the population mean 
+# for the specified values of the variables in the model.
 
 
 # j) Finally, do model checking on your model from f), i.e. inspect 
 #    the standard model plots provided by R, and interpret what you see.
-
-
+plot(lm3)
+# Hit enter to see plots
+# We see that Normal Q-Q plot is close to a straight line and also that cook's distance 
+# is being affected due to some points that have higher leverage.
