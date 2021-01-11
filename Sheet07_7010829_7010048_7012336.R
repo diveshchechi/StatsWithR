@@ -97,11 +97,14 @@ ggplot(data=kidiq_df,aes(x=mom_iq,y=kid_score, color=mom_hs))+
 
 # f) Next, we will proceed to a model including an interaction between mom_hs
 #    and mom_iq. Fit the model and interpret your results.
-
+lm3 <- lm(kid_score~mom_iq * mom_hs, data=kidiq)
+summary(lm3)
 
 
 # g) Next, let's plot the results of this model.
-
+ggplot(augment(lm3), aes(x=mom_iq,y=kid_score, color=mom_hs))+
+  geom_point() +
+  geom_smooth(method='lm',formula= y~x)
 
 
 # h) Next, let's explore the "predict.lm" function. Please first generate
@@ -110,7 +113,9 @@ ggplot(data=kidiq_df,aes(x=mom_iq,y=kid_score, color=mom_hs))+
 #    child's iq. 
 #    Please specify the predict function to also give you the 0.95 confidence 
 #    interval.
-
+?predict.lm()
+kidiq2 <- subset(kidiq, mom_hs == 1 & mom_iq >= 100)
+predict(lm(kid_score~mom_iq, kidiq2, interval = "confidence", level = 0.95))
 
 
 # i) Meaning of confidence intervals for regression line.
