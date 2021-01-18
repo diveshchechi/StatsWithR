@@ -34,6 +34,7 @@
 library(lme4)
 library(lattice)
 library(Matrix)
+library(reshape)
 library(ggplot2)
 
 # a)There is (gender.Rdata) datasets on moodle.
@@ -72,6 +73,11 @@ ggplot(data=subdat,aes(x=ITEM_TYPE,y=WORD_TIME))+
 #    the average reading time is shown for each of the two conditions (ITEM_TYPE).
 #    Please use two different colours for the different conditions.
 
+casted <-  cast(dat, RELWDINDEX + ITEM_TYPE ~ .,  mean, value = "WORD_TIME", na.RM = TRUE)
+colnames(casted) <- c("RELWDINDEX", "ITEM_TYPE", "AVG_WORD_TIME")
+ggplot(data=casted,aes(x=RELWDINDEX,y=AVG_WORD_TIME, color = ITEM_TYPE))+
+  geom_point() 
+
 
 # e) You do not need to use ggplot here, just follow the example below.
 #    The code is a plot for the dataset 'sleepstudy' from the package 'lme4'.
@@ -86,7 +92,12 @@ print(xyplot(Reaction ~ Days | Subject, sleepstudy, aspect = "xy",
              ylab = "Average reaction time (ms)"))
 
 #    Your task is to figure out how to adapt this plot for our data. What do you 
-#    conclude regarding the reading sentences experiment?
+#    conclude regarding the reading sentences experiment 
+print(xyplot(WORD_TIME ~ RELWDINDEX   | PARTICIPANT, dat, aspect = "xy",
+             layout = c(1,2), type = c("g", "p", "r"),
+             index.cond = function(x,y) coef(lm(y ~ x))[1],
+             xlab = "Days of sleep deprivation",
+             ylab = "AVG READ TIME"))
 
 # f)  Explain the main need for switching to Linear mixed effect model for the study.
 #And, report what could be the fixed and random effect stucture.
