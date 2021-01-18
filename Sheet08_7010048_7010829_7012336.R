@@ -56,9 +56,12 @@ dat <- read.table("gender.txt",header=TRUE)
 #    and ITEM_TYPE. 
 #    For the second plot you should first subset the data using only RELWDINDEX == 0 and
 #    then plot the WORD_TIME for the different conditions (ITEM_TYPE).
+summary(dat)
+head(dat)
+
 ggplot(data=dat,aes(x=ITEM_TYPE,y=WORD_TIME))+
   geom_point() 
-  
+
 subdat <- subset(dat, RELWDINDEX == 0)
 ggplot(data=subdat,aes(x=ITEM_TYPE,y=WORD_TIME))+
   geom_point() 
@@ -67,6 +70,8 @@ ggplot(data=subdat,aes(x=ITEM_TYPE,y=WORD_TIME))+
 #    but also a detailed (!) explanation). 
 #    Note that we are evaluating WORD_TIME as our reponse variable. 
 #    What time intervals make sense for such an experiment?
+# Ans: The two outliers in plot1 (and the three outliers in plot2 RELWDINDEX == 0 analysis) could be excluded.
+#      This is because being outliers they could distort the true relationship between the response variable and the features.
 
 
 # d) Make a scatter plot where for each index word as the sentence progresses (RELWDINDEX),
@@ -93,14 +98,15 @@ print(xyplot(Reaction ~ Days | Subject, sleepstudy, aspect = "xy",
 
 #    Your task is to figure out how to adapt this plot for our data. What do you 
 #    conclude regarding the reading sentences experiment 
-print(xyplot(WORD_TIME ~ RELWDINDEX   | PARTICIPANT, dat, aspect = "xy",
+help("xyplot")
+print(xyplot(WORD_TIME ~ RELWDINDEX   | ITEM_TYPE, dat, aspect = "xy",
              layout = c(1,2), type = c("g", "p", "r"),
              index.cond = function(x,y) coef(lm(y ~ x))[1],
-             xlab = "Days of sleep deprivation",
+             xlab = "RELWDINDEX",
              ylab = "AVG READ TIME"))
 
 # f)  Explain the main need for switching to Linear mixed effect model for the study.
-#And, report what could be the fixed and random effect stucture.
+#And, report what could be the fixed and random effect structure.
 
 # g) Experiment with calculating a linear mixed effects model for this study, 
 #    and draw the appropriate conclusions 
