@@ -34,11 +34,13 @@
 library(lme4)
 library(lattice)
 library(Matrix)
+library(ggplot2)
 
 # a)There is (gender.Rdata) datasets on moodle.
 #   Read in the data file (gender.Rdata) 
 #   and assign it to a variable called "dat". 
 #   See a description of the items in the datasets below.
+dat <- read.table("gender.txt",header=TRUE)
 
 # The files contain data from an experiment where people were reading sentences, 
 # and pressed the space bar to see the next word. The duration for which a word was 
@@ -53,8 +55,12 @@ library(Matrix)
 #    and ITEM_TYPE. 
 #    For the second plot you should first subset the data using only RELWDINDEX == 0 and
 #    then plot the WORD_TIME for the different conditions (ITEM_TYPE).
-
-
+ggplot(data=dat,aes(x=ITEM_TYPE,y=WORD_TIME))+
+  geom_point() 
+  
+subdat <- subset(dat, RELWDINDEX == 0)
+ggplot(data=subdat,aes(x=ITEM_TYPE,y=WORD_TIME))+
+  geom_point() 
 
 # c) Decide whether you want to exclude any data points (provide not only the code,
 #    but also a detailed (!) explanation). 
