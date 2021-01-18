@@ -99,7 +99,7 @@ print(xyplot(Reaction ~ Days | Subject, sleepstudy, aspect = "xy",
 #    Your task is to figure out how to adapt this plot for our data. What do you 
 #    conclude regarding the reading sentences experiment 
 help("xyplot")
-print(xyplot(WORD_TIME ~ RELWDINDEX   | ITEM_TYPE, dat, aspect = "xy",
+print(xyplot(WORD_TIME ~ RELWDINDEX   | PARTICIPANT, dat, aspect = "xy",
              layout = c(1,2), type = c("g", "p", "r"),
              index.cond = function(x,y) coef(lm(y ~ x))[1],
              xlab = "RELWDINDEX",
@@ -107,11 +107,32 @@ print(xyplot(WORD_TIME ~ RELWDINDEX   | ITEM_TYPE, dat, aspect = "xy",
 
 # f)  Explain the main need for switching to Linear mixed effect model for the study.
 #And, report what could be the fixed and random effect structure.
+# Linear mixed effect models allow us to determine both fixed and random effects, 
+# as there is non independence in data. e.g. the participants in our data.
+# Random effect includes categorical data like Item_Type
+# Fixed effect includes variables that act as explanatory variable e.g. Relwdindex
 
 # g) Experiment with calculating a linear mixed effects model for this study, 
 #    and draw the appropriate conclusions 
+lmer1 <- lmer(WORD_TIME ~ RELWDINDEX + (1|ITEM_TYPE), data = dat)
+summary(lmer1)
+# Results
+#Random effects:
+#  Groups    Name        Variance Std.Dev.
+#ITEM_TYPE (Intercept)    497.4  22.3   
+#Residual              106492.6 326.3   
+#Number of obs: 5782, groups:  ITEM_TYPE, 2
+#Fixed effects:
+#  Estimate Std. Error t value
+#(Intercept)  638.280     16.354  39.028
+#RELWDINDEX     6.464      1.418   4.559
+## The random effect part tells us how much variance we find amongst our grouping levels.
+## Fixed effect part is similar to linear regression moedlling giving results in terms of slope and intercept.
 
 # h} Describe how would you report and write up the analysis giving a detailed explanation for each model 
+# The variance explained by our random effect is 497.4/(497.4 + 106492.7) = 0.4% 
+# Therefore we can say that the difference between the Item_type explain 0.4% of the variance
+# that is left after the variance explained by our fixed effects.
 
 # i) Let's get back to the dataset 'sleepstudy'. The following plot shows 
 #    subject-specific intercepts and slopes. Adapt this plot for our study 
@@ -121,3 +142,23 @@ model = lmer(Reaction ~ Days + (Days|Subject), sleepstudy)
 print(dotplot(ranef(model,condVar=TRUE),  scales = list(x = list(relation = 'free')))
       [["Subject"]])
 
+model = lmer(WORD_TIME ~ RELWDINDEX + (RELWDINDEX|PARTICIPANT), dat)
+print(dotplot(ranef(model,condVar=TRUE),  scales = list(x = list(relation = 'free')))
+      [["PARTICIPANT"]])
+summary(model)
+# In our plotted model we get Participant specific slopes and intercepts.
+#Random effects:
+#  Groups      Name        Variance Std.Dev. Corr 
+#PARTICIPANT (Intercept) 19993    141.40        
+#RELWDINDEX      113     10.63   -0.37
+#Residual                86098    293.42        
+#Number of obs: 5782, groups:  PARTICIPANT, 24
+## We can see that model correctly identifies our participants as 24.
+## Participant explains quite a lot of variance i.e. 19993/(19993+86098). 
+## Thus random effect is also of significant value.
+# Fixed effects: 
+#Estimate       Std.       Error t value
+#(Intercept)  637.951     29.125  21.904
+#RELWDINDEX     6.519      2.517   2.591
+# Fixed effect results can be interpreted directly like a linear regression model
+# meaning a slope value estimate of 6.519 and an intercept of 637.951. 
