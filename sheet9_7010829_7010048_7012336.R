@@ -86,6 +86,8 @@ summary(randInt)
 
 #(5) compare the output for the different models that you calculated - did the model design affect your conclusions?
 AIC(randInt_iid, randInt_pid, randInt)
+## We observe that our model in (2) gives 6698 (3) gives AIC 8236 and in (4) gives 6675
+## The smaller the AIC the better the fit is, therefore our model randInt_pid in (3) gives the beszt results.
 
 ####
 #Part 2
@@ -117,6 +119,11 @@ summary(fitglm)
 # poisson model family is used as the response variable is a count variable. it would follow poisson distribution rather than normal distribution.
 
 #(8) Do model comparisons to find out whether the predictors significantly improve model fit.
+fitglm <- glm(num_awards ~ math , data=p, family=poisson(link=log))
+summary(fitglm)
+# Compared with model including math and prog the model only with math gives AIC of 384.08 
+# whereas model with math and prog gives us 373.5. There fore predictors improve our model prediction
+# as lower value of AIC is better.
 
 #(9) Compare to a model that uses a gaussian distribution (normal lm model) for this data.
 fitlm <- lm(num_awards ~ math + prog, data=p)
